@@ -3,323 +3,815 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b70">
-<title>StudySprint | Exam Preparation</title>
+<title>StudySprint v2 | Exam Preparation</title>
 <style>
-:root{--blue:#173b70;--light:#eef4ff;--green:#16804a;--red:#c0392b;--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#657087}
+:root{--blue:#173b70;--pale:#edf3ff;--bg:#f4f6fb;--ink:#182235;--muted:#667085;--green:#147a45;--red:#b42318}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{background:var(--blue);color:white;padding:22px 16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,Arial,sans-serif}
+header{background:var(--blue);color:white;padding:20px 16px}
 header h1{margin:0;font-size:27px}
-header p{margin:5px 0 0;color:#dbe7ff;font-size:14px}
-main{max-width:850px;margin:auto;padding:16px}
-nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px}
-button,.btn{border:0;border-radius:10px;padding:11px 14px;font-size:14px;font-weight:650;cursor:pointer}
-nav button{background:#e2e9f5;color:var(--blue);white-space:nowrap}
+header p{margin:4px 0 0;color:#dce8ff}
+main{max-width:950px;margin:auto;padding:14px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:5px 0 14px}
+button{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-weight:650;cursor:pointer}
+button:disabled{opacity:.5}
+nav button{white-space:nowrap;background:#e5ebf5;color:var(--blue)}
 nav button.active,.primary{background:var(--blue);color:white}
-.card{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 3px 15px #182e5010}
-h2{font-size:21px;margin:0 0 12px}
-h3{margin:0 0 8px;font-size:17px}
-p{line-height:1.55}
+.secondary{background:#e9eef7;color:var(--blue)}
+.danger{background:#ffebe9;color:var(--red)}
+.card{background:white;border-radius:15px;padding:16px;margin-bottom:13px;box-shadow:0 3px 14px #1d31500b}
+h2{font-size:21px;margin:0 0 10px}
+h3{font-size:17px;margin:0 0 8px}
 .muted{color:var(--muted);font-size:14px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.stat{background:white;border-radius:13px;padding:14px 8px;text-align:center}
-.stat strong{display:block;font-size:24px;color:var(--blue)}
+.small{font-size:12px;color:var(--muted)}
+label{display:block;font-weight:650;font-size:14px;margin:8px 0 4px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:9px;font:inherit;margin:3px 0 9px;background:white}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.stat{text-align:center;background:white;border-radius:12px;padding:12px 5px}
+.stat strong{display:block;color:var(--blue);font-size:23px}
 .stat span{font-size:12px;color:var(--muted)}
-.option{display:block;width:100%;text-align:left;background:#f2f5fa;border:1px solid #e0e6ef;margin:9px 0;padding:13px;border-radius:10px;color:var(--text);font-weight:500}
-.option.correct{background:#e3f7eb;border-color:#16804a}
-.option.wrong{background:#ffebe9;border-color:#c0392b}
-.option:disabled{cursor:default}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.row button{margin-top:6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ccd5e3;border-radius:9px;font:inherit;margin:6px 0 12px;background:white}
-label{font-size:14px;font-weight:650}
 .hidden{display:none!important}
-.feedback{padding:12px;border-radius:10px;margin:12px 0;font-size:14px}
-.good{background:#e3f7eb;color:#125e37}
-.bad{background:#ffebe9;color:#922d25}
-.flashcard{min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--light);border-radius:14px;padding:24px;cursor:pointer}
-.flashcard .answer{color:var(--green);font-weight:650;margin-top:14px}
-.progress{height:9px;background:#e5eaf2;border-radius:10px;overflow:hidden;margin:10px 0}
-.progress div{height:100%;background:#16804a;width:0}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
-.small{font-size:12px}
+.progress{height:8px;background:#e7ebf2;border-radius:20px;overflow:hidden;margin:10px 0}
+.progress div{height:100%;background:var(--green);width:0}
+.option{display:block;width:100%;text-align:left;background:#f5f7fb;border:1px solid #dbe2ee;margin:8px 0;font-weight:500}
+.option.correct{background:#e3f7eb;border-color:var(--green)}
+.option.wrong{background:#ffebe9;border-color:var(--red)}
+.notice{padding:11px;border-radius:9px;background:#edf3ff;margin:10px 0;font-size:14px}
+.success{background:#e3f7eb;color:#125b35}
+.error{background:#ffebe9;color:#922d25}
+.warn{background:#fff4d6;color:#7a5200}
+.pill{display:inline-block;border-radius:20px;background:#e8eef8;color:var(--blue);padding:3px 9px;font-size:12px}
+.flash{min-height:155px;display:flex;justify-content:center;align-items:center;text-align:center;padding:24px;background:var(--pale);border-radius:13px;cursor:pointer;font-size:18px;font-weight:650;white-space:pre-wrap}
+.timer{font-size:23px;font-weight:800;color:var(--blue)}
+.palette{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.palette button{padding:8px 0;background:#e8edf5}
+.palette button.current{outline:2px solid var(--blue)}
+.palette button.answered{background:#ccebd8}
+.palette button.review{background:#ffe3a3}
+.palette button.both{background:#d9c7ff}
+.item{padding:12px 0;border-bottom:1px solid #e5e9f0}
+.item:last-child{border:0}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+@media(max-width:650px){
+.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{padding:13px}
+header h1{font-size:24px}
+.palette{grid-template-columns:repeat(8,1fr)}
+}
 </style>
 </head>
 <body>
 <header>
-  <h1>📚 StudySprint</h1>
-  <p>Your daily companion for JKSSB · JKAS · UPSC</p>
+<h1>📚 StudySprint</h1>
+<p>JKSSB • JKAS • UPSC | Practice, test and revise</p>
 </header>
 <main>
-  <div class="stats">
-    <div class="stat"><strong id="total">0</strong><span>Questions attempted</span></div>
-    <div class="stat"><strong id="accuracy">0%</strong><span>Accuracy</span></div>
-    <div class="stat"><strong id="streak">0</strong><span>Correct answers</span></div>
-  </div>
-
-  <nav>
-    <button class="active" data-tab="home">🏠 Home</button>
-    <button data-tab="quiz">✍️ MCQ Practice</button>
-    <button data-tab="cards">🗂️ Flashcards</button>
-    <button data-tab="manage">➕ My Questions</button>
-  </nav>
-
-  <section id="home">
-    <div class="card">
-      <h2>Welcome to StudySprint!</h2>
-      <p>Practise objective questions, revise important facts, and track your preparation progress.</p>
-      <label for="subject">Choose a subject</label>
-      <select id="subject">
-        <option value="All">All subjects</option>
-        <option>J&amp;K GK</option>
-        <option>Indian Polity</option>
-        <option>Geography</option>
-        <option>Accountancy</option>
-        <option>Economics</option>
-        <option>Mathematics</option>
-        <option>Statistics</option>
-        <option>General Science</option>
-        <option>Computer</option>
-        <option>English</option>
-      </select>
-      <button class="primary" onclick="startQuiz()">Start MCQ Practice →</button>
-      <button onclick="showTab('cards')">Revise Flashcards</button>
-    </div>
-    <div class="card">
-      <h3>Today's progress</h3>
-      <div class="progress"><div id="progressbar"></div></div>
-      <p id="progressText" class="muted">Answer questions to begin tracking your progress.</p>
-    </div>
-    <div class="card">
-      <h3>Study tip</h3>
-      <p class="muted">Practise daily, review incorrect answers, and revisit difficult topics using flashcards.</p>
-    </div>
-  </section>
-
-  <section id="quiz" class="hidden">
-    <div class="card">
-      <div class="row" style="justify-content:space-between">
-        <span class="muted" id="qSubject">MCQ Practice</span>
-        <span class="muted" id="qCount"></span>
-      </div>
-      <div class="progress"><div id="quizbar"></div></div>
-      <h2 id="question">Select Start MCQ Practice to begin.</h2>
-      <div id="options"></div>
-      <div id="feedback" class="hidden"></div>
-      <div class="row">
-        <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next question →</button>
-        <button onclick="startQuiz()">Restart</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="cards" class="hidden">
-    <div class="card">
-      <h2>Flashcards</h2>
-      <p class="muted">Tap the card to reveal the answer.</p>
-      <div class="flashcard" onclick="flipCard()">
-        <div id="front">Ready to revise?</div>
-        <div id="back" class="answer hidden"></div>
-      </div>
-      <p class="muted" id="cardCount" style="text-align:center"></p>
-      <div class="row">
-        <button onclick="prevCard()">← Previous</button>
-        <button class="primary" onclick="flipCard()">Reveal / Hide</button>
-        <button onclick="nextCard()">Next →</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="manage" class="hidden">
-    <div class="card">
-      <h2>Add your own MCQ</h2>
-      <p class="muted">Create questions from your notes or syllabus. They are saved on this device.</p>
-      <form id="addForm">
-        <label>Subject</label>
-        <select id="newSubject" required>
-          <option>J&amp;K GK</option><option>Indian Polity</option>
-          <option>Geography</option><option>Accountancy</option>
-          <option>Economics</option><option>Mathematics</option>
-          <option>Statistics</option><option>General Science</option>
-          <option>Computer</option><option>English</option>
-          <option>Other</option>
-        </select>
-        <label>Question</label>
-        <textarea id="newQuestion" required placeholder="Enter the question"></textarea>
-        <label>Option A</label><input id="a" required>
-        <label>Option B</label><input id="b" required>
-        <label>Option C</label><input id="c" required>
-        <label>Option D</label><input id="d" required>
-        <label>Correct option</label>
-        <select id="correct"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
-        <label>Explanation (optional)</label>
-        <textarea id="explanation" placeholder="Why is this answer correct?"></textarea>
-        <button class="primary" type="submit">Save question</button>
-      </form>
-      <p id="manageMsg" class="muted"></p>
-    </div>
-    <div class="card">
-      <h3>Manage your question bank</h3>
-      <p id="bankCount" class="muted"></p>
-      <div class="row">
-        <button onclick="exportData()">Export backup</button>
-        <button onclick="document.getElementById('importFile').click()">Import backup</button>
-        <button onclick="clearProgress()">Reset progress</button>
-      </div>
-      <input type="file" id="importFile" accept=".json,application/json" class="hidden">
-      <p class="small muted">Export your questions and progress regularly. Browser data can be lost if site data is cleared.</p>
-    </div>
-  </section>
+<div class="grid" style="margin-bottom:12px">
+<div class="stat"><strong id="attempts">0</strong><span>Answered</span></div>
+<div class="stat"><strong id="accuracy">0%</strong><span>Accuracy</span></div>
+<div class="stat"><strong id="due">0</strong><span>Revision due</span></div>
+</div>
+<nav>
+<button class="active" data-page="home">🏠 Home</button>
+<button data-page="practice">✍️ Practice</button>
+<button data-page="exam">⏱️ Exam mode</button>
+<button data-page="revision">🔁 Daily revision</button>
+<button data-page="saved">⭐ Bookmarks & mistakes</button>
+<button data-page="manage">⚙️ Question bank</button>
+</nav>
+<section id="home" class="page">
+<div class="card">
+<h2>Welcome to StudySprint!</h2>
+<p>Practise by subject and topic, take timed tests, save difficult questions and revise regularly.</p>
+<div class="grid">
+<div><label>Subject</label><select id="subject"></select></div>
+<div><label>Topic</label><select id="topic"></select></div>
+<div><label>Difficulty</label><select id="difficulty"><option>All</option><option>Easy</option><option>Moderate</option><option>Hard</option></select></div>
+</div>
+<div class="row">
+<button class="primary" onclick="startPractice()">Start practice</button>
+<button class="secondary" onclick="showPage('exam')">Exam mode</button>
+<button class="secondary" onclick="startRevision()">Revise now</button>
+</div>
+<div class="notice"><b id="bankStatus"></b><br><span class="small">Starter questions include source labels where possible. Check original sources before relying on facts for an exam.</span></div>
+</div>
+<div class="card">
+<h3>Today's progress</h3>
+<div class="progress"><div id="todayBar"></div></div>
+<p id="todayText" class="muted"></p>
+<p class="muted">Suggested routine: practise 20 MCQs, review mistakes and revise difficult cards.</p>
+</div>
+<div class="card">
+<h3>Exam rules</h3>
+<p class="muted">80 minutes, +1 for a correct answer, −0.25 for an incorrect answer and zero for unanswered questions. Results and explanations appear after submission.</p>
+</div>
+</section>
+<section id="practice" class="page hidden">
+<div class="card">
+<div class="row" style="justify-content:space-between">
+<span id="pMeta" class="pill">Practice</span>
+<button id="bookmarkBtn" class="secondary" onclick="toggleBookmark()">☆ Bookmark</button>
+</div>
+<p id="pCount" class="muted"></p>
+<div class="progress"><div id="pBar"></div></div>
+<h2 id="pQuestion">Start a practice session from Home.</h2>
+<div id="pOptions"></div>
+<div id="pFeedback"></div>
+<div class="row">
+<button class="secondary" onclick="previousPractice()">← Previous</button>
+<button class="primary" id="pNext" onclick="nextPractice()">Next →</button>
+<button class="secondary" onclick="showPage('home')">Exit</button>
+</div>
+<p id="pSource" class="small"></p>
+</div>
+</section>
+<section id="exam" class="page hidden">
+<div class="card" id="examIntro">
+<h2>Timed exam</h2>
+<p class="muted">Choose a subject, topic and test length. Questions appear in a fixed order.</p>
+<label>Subject</label><select id="examSubject"></select>
+<label>Topic</label><select id="examTopic"></select>
+<label>Number of questions</label>
+<select id="examCount"><option>10</option><option selected>20</option><option>40</option><option>80</option></select>
+<button class="primary" onclick="beginExam()">Begin exam</button>
+</div>
+<div id="examTest" class="hidden">
+<div class="card">
+<div class="row" style="justify-content:space-between"><span class="pill">EXAM IN PROGRESS</span><span id="timer" class="timer">80:00</span></div>
+<div class="progress"><div id="eBar"></div></div>
+<h2 id="eQuestion"></h2>
+<p id="eMeta" class="muted"></p>
+<div id="eOptions"></div>
+<div class="row">
+<button class="secondary" onclick="clearAnswer()">Clear response</button>
+<button class="secondary" onclick="markReview()">Mark for review</button>
+<button class="primary" onclick="saveNext()">Save & Next →</button>
+</div>
+<div class="row" style="margin-top:8px">
+<button class="secondary" onclick="moveExam(-1)">← Previous</button>
+<button class="secondary" onclick="moveExam(1)">Next →</button>
+<button class="danger" onclick="submitExam(false)">Submit exam</button>
+</div>
+</div>
+<div class="card"><h3>Question palette</h3><div id="palette" class="palette"></div><p class="small">Grey: unanswered · Green: answered · Amber: review · Purple: answered and review.</p></div>
+</div>
+<div id="examResult" class="hidden"></div>
+</section>
+<section id="revision" class="page hidden">
+<div class="card">
+<h2>Daily revision</h2>
+<p class="muted">Revise mistakes and questions due for review. After revealing an answer, rate it Again, Hard, Good or Easy.</p>
+<button class="primary" onclick="startRevision()">Start revision session</button>
+<p id="rCount" class="muted"></p>
+<div id="rCard" class="flash" onclick="revealRevision()">Tap to reveal the answer.</div>
+<div id="rControls" class="hidden row" style="margin-top:10px">
+<button class="danger" onclick="rateRevision('Again')">Again</button>
+<button class="secondary" onclick="rateRevision('Hard')">Hard</button>
+<button class="primary" onclick="rateRevision('Good')">Good</button>
+<button class="secondary" onclick="rateRevision('Easy')">Easy</button>
+</div>
+<div id="rList"></div>
+</div>
+</section>
+<section id="saved" class="page hidden">
+<div class="card">
+<h2>Bookmarks & mistakes</h2>
+<div class="row">
+<button class="secondary" onclick="renderSaved('bookmarks')">⭐ Bookmarks</button>
+<button class="secondary" onclick="renderSaved('mistakes')">❌ Mistakes</button>
+<button class="secondary" onclick="renderSaved('all')">All saved</button>
+</div>
+<div id="savedList"></div>
+</div>
+</section>
+<section id="manage" class="page hidden">
+<div class="card">
+<h2>Add your own MCQ</h2>
+<p class="muted">Use trusted sources and record the source title so you can check the answer later.</p>
+<form id="addForm">
+<label>Subject</label><select id="newSubject" required></select>
+<label>Topic / chapter</label><input id="newTopic" required placeholder="e.g. Fundamental Rights">
+<label>Difficulty</label><select id="newDifficulty"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select>
+<label>Question</label><textarea id="newQuestion" required></textarea>
+<label>Option A</label><input id="o0" required>
+<label>Option B</label><input id="o1" required>
+<label>Option C</label><input id="o2" required>
+<label>Option D</label><input id="o3" required>
+<label>Correct option</label><select id="newAnswer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+<label>Explanation</label><textarea id="newExplanation"></textarea>
+<label>Source title / institution</label><input id="newSource" required placeholder="e.g. NCERT Class XI, Chapter 2">
+<label>Source URL (optional)</label><input id="newURL" type="url" placeholder="https://...">
+<button class="primary" type="submit">Save question</button>
+</form>
+<p id="addMessage" class="muted"></p>
+</div>
+<div class="card">
+<h2>Backup and data</h2>
+<p id="manageSummary" class="muted"></p>
+<div class="row">
+<button class="secondary" onclick="exportBackup()">Export backup</button>
+<button class="secondary" onclick="document.getElementById('importFile').click()">Import backup</button>
+<button class="secondary" onclick="exportMistakes()">Export mistakes</button>
+<button class="danger" onclick="resetStats()">Reset stats</button>
+</div>
+<input id="importFile" type="file" accept=".json,application/json" class="hidden">
+<p class="small">Export a backup regularly. Clearing browser data can erase saved progress.</p>
+</div>
+<div class="card">
+<h3>Useful primary sources</h3>
+<ul class="small">
+<li><a href="https://jkssb.nic.in/" target="_blank" rel="noopener">JKSSB</a> — official recruitment notices and syllabi.</li>
+<li><a href="https://www.indiacode.nic.in/" target="_blank" rel="noopener">India Code</a> — legislation and constitutional provisions.</li>
+<li><a href="https://ncert.nic.in/textbook.php" target="_blank" rel="noopener">NCERT</a> — Geography, Science, Economics and other textbooks.</li>
+<li><a href="https://www.rbi.org.in/" target="_blank" rel="noopener">Reserve Bank of India</a> — banking and monetary policy.</li>
+<li><a href="https://www.cert-in.org.in/" target="_blank" rel="noopener">CERT-In</a> — cybersecurity advisories.</li>
+</ul>
+</div>
+</section>
 </main>
-<footer>StudySprint · Independent study tool · Verify facts with reliable sources.</footer>
-
+<footer>StudySprint · Mobile-friendly study tool · Keep an external backup of your data.</footer>
 <script>
-const defaults = [
-{subject:"J&K GK",q:"Which river flows through the Kashmir Valley?",o:["Chenab","Jhelum","Ravi","Tawi"],a:1,e:"The Jhelum flows through the Kashmir Valley."},
-{subject:"J&K GK",q:"Wular Lake is located in which region?",o:["Kashmir Valley","Jammu region","Ladakh","Punjab"],a:0,e:"Wular Lake is in the Kashmir Valley, in Bandipora district."},
-{subject:"J&K GK",q:"Which is the summer capital of Jammu and Kashmir?",o:["Jammu","Srinagar","Leh","Delhi"],a:1,e:"Srinagar is the summer capital; Jammu is the winter capital."},
-{subject:"Indian Polity",q:"Fundamental Rights are contained in which Part of the Indian Constitution?",o:["Part II","Part III","Part IV","Part IVA"],a:1,e:"Fundamental Rights are covered by Part III."},
-{subject:"Indian Polity",q:"Who is the constitutional head of the Union of India?",o:["Prime Minister","Chief Justice","President","Speaker"],a:2,e:"The President is the constitutional head of the Union."},
-{subject:"Geography",q:"Which is the largest ocean on Earth?",o:["Atlantic","Indian","Arctic","Pacific"],a:3,e:"The Pacific Ocean is the largest ocean."},
-{subject:"Geography",q:"The Tropic of Cancer is located at approximately:",o:["0°","23.5° N","23.5° S","66.5° N"],a:1,e:"The Tropic of Cancer lies at about 23.5° north latitude."},
-{subject:"Accountancy",q:"The basic accounting equation is:",o:["Assets = Liabilities + Capital","Assets = Income - Expenses","Capital = Assets + Liabilities","Liabilities = Assets + Capital"],a:0,e:"Assets = Liabilities + Owner's Equity (Capital)."},
-{subject:"Accountancy",q:"Which book records transactions first in chronological order?",o:["Ledger","Trial balance","Journal","Balance sheet"],a:2,e:"The journal is the book of original entry."},
-{subject:"Economics",q:"Which institution issues most banknotes in India?",o:["SBI","RBI","SEBI","NABARD"],a:1,e:"The Reserve Bank of India issues banknotes, except the one-rupee note."},
-{subject:"Mathematics",q:"What is 15% of 200?",o:["15","20","30","35"],a:2,e:"0.15 × 200 = 30."},
-{subject:"Statistics",q:"The arithmetic mean is calculated by:",o:["Largest minus smallest","Sum of observations divided by their number","Most frequent value","Middle observation only"],a:1,e:"Mean = sum of observations / number of observations."},
-{subject:"General Science",q:"Which gas do plants primarily absorb during photosynthesis?",o:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],a:2,e:"Plants use carbon dioxide and water to produce sugars using light energy."},
-{subject:"Computer",q:"Which component is commonly called the brain of a computer?",o:["Monitor","CPU","Keyboard","Printer"],a:1,e:"The CPU executes instructions and processes data."},
-{subject:"English",q:"Choose the synonym of 'abundant'.",o:["Scarce","Plentiful","Tiny","Empty"],a:1,e:"Abundant means plentiful or available in large quantities."}
-];
-const defaultCards = [
-{q:"What is the basic accounting equation?",a:"Assets = Liabilities + Capital."},
-{q:"Which Part of the Constitution contains Fundamental Rights?",a:"Part III (Articles 12–35)."},
-{q:"What is the formula for arithmetic mean?",a:"Mean = Sum of observations ÷ Number of observations."},
-{q:"Which river flows through the Kashmir Valley?",a:"The Jhelum River."},
-{q:"What is the full form of CPU?",a:"Central Processing Unit."},
-{q:"What is the capital of Jammu and Kashmir in summer?",a:"Srinagar. Jammu is the winter capital."},
-{q:"What is the formula for simple interest?",a:"Simple Interest = (Principal × Rate × Time) ÷ 100."},
-{q:"Which institution is India's central bank?",a:"The Reserve Bank of India (RBI)."}
-];
-const load=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch(e){return fallback}};
-let questions=load("ss_questions",defaults);
-let cards=load("ss_cards",defaultCards);
-let stats=load("ss_stats",{attempted:0,correct:0});
-let deck=[],index=0,answered=false,cardIndex=0,flipped=false;
+  
+const STORAGE_KEY = "studysprint_v2_data";
 
-function save(){
- try{
- localStorage.setItem("ss_questions",JSON.stringify(questions));
- localStorage.setItem("ss_cards",JSON.stringify(cards));
- localStorage.setItem("ss_stats",JSON.stringify(stats));
- }catch(e){alert("Could not save data. Please check your browser storage.");}
+const seedQuestions = [
+ {id:"GK001",subject:"J&K GK",topic:"Geography",difficulty:"Easy",q:"Which river flows through the Kashmir Valley?",o:["Jhelum","Ravi","Beas","Sutlej"],a:0,e:"The Jhelum flows through the Kashmir Valley and is a major river of the region.",source:"NCERT / standard geography reference",url:"https://jkhighereducation.nic.in/"},
+ {id:"GK002",subject:"J&K GK",topic:"Geography",difficulty:"Easy",q:"Wular Lake is primarily associated with which district of Jammu and Kashmir?",o:["Kupwara","Bandipora","Jammu","Kishtwar"],a:1,e:"Wular Lake is located in Bandipora district in the Kashmir Valley.",source:"J&K government / Ramsar information",url:"https://rsis.ramsar.org/"},
+ {id:"GK003",subject:"J&K GK",topic:"Geography",difficulty:"Medium",q:"Verinag, traditionally associated with the source of the Jhelum, is in which district?",o:["Anantnag","Baramulla","Poonch","Doda"],a:0,e:"Verinag is a spring in Anantnag district, traditionally regarded as the source of the Jhelum.",source:"J&K tourism reference",url:"https://www.jktdc.co.in/"},
+ {id:"GK004",subject:"J&K GK",topic:"Administration",difficulty:"Easy",q:"Jammu and Kashmir became a Union Territory on:",o:["26 January 2020","31 October 2019","5 August 2019","15 August 2019"],a:1,e:"The Jammu and Kashmir Reorganisation Act, 2019, took effect on 31 October 2019.",source:"Jammu and Kashmir Reorganisation Act, 2019",url:"https://www.indiacode.nic.in/"},
+ {id:"GK005",subject:"J&K GK",topic:"Geography",difficulty:"Medium",q:"The Karewas of Kashmir are especially associated with:",o:["Marine coral reefs","Lacustrine deposits","Volcanic cones","Desert dunes"],a:1,e:"Karewas are elevated lacustrine deposits important for agriculture and saffron cultivation.",source:"Standard Indian geography reference",url:"https://ncert.nic.in/"},
+ {id:"GK006",subject:"J&K GK",topic:"Geography",difficulty:"Easy",q:"Which crop is Kashmir especially famous for cultivating around Pampore?",o:["Saffron","Tea","Coffee","Rubber"],a:0,e:"Pampore and adjoining areas are well known for saffron cultivation.",source:"Agriculture and district references",url:"https://www.jkdsd.org/"},
+ {id:"ACC001",subject:"Accountancy",topic:"Bookkeeping",difficulty:"Easy",q:"The fundamental accounting equation is:",o:["Assets = Liabilities + Capital","Assets = Income − Expenses","Capital = Assets + Liabilities","Liabilities = Assets + Capital"],a:0,e:"The accounting equation states that assets equal liabilities plus owner's equity or capital.",source:"NCERT Accountancy",url:"https://ncert.nic.in/"},
+ {id:"ACC002",subject:"Accountancy",topic:"Bookkeeping",difficulty:"Easy",q:"Which account is debited when a business purchases furniture for cash?",o:["Cash account","Furniture account","Sales account","Capital account"],a:1,e:"Furniture is an asset. An increase in an asset is debited; cash is credited.",source:"Fundamentals of accounting",url:"https://ncert.nic.in/"},
+ {id:"ACC003",subject:"Accountancy",topic:"Bank Reconciliation",difficulty:"Medium",q:"A cheque issued but not yet presented for payment generally causes the cash book bank balance to be:",o:["Higher than the passbook balance","Lower than the passbook balance","Always equal to the passbook balance","Negative in every case"],a:0,e:"The cash book records the payment when the cheque is issued, while the bank records it when presented.",source:"Standard accounting textbook",url:"https://ncert.nic.in/"},
+ {id:"ACC004",subject:"Accountancy",topic:"Depreciation",difficulty:"Easy",q:"Depreciation is the systematic allocation of an asset's:",o:["Market value","Depreciable amount over its useful life","Purchase price to inventory","Liabilities over a year"],a:1,e:"Depreciation allocates the depreciable amount of an asset over its useful life.",source:"Accounting principles",url:"https://www.icai.org/"},
+ {id:"ACC005",subject:"Accountancy",topic:"Journal",difficulty:"Easy",q:"The book of original entry is generally called the:",o:["Ledger","Trial balance","Journal","Balance sheet"],a:2,e:"Transactions are first recorded in the journal or another appropriate book of original entry.",source:"NCERT Accountancy",url:"https://ncert.nic.in/"},
+ {id:"ENG001",subject:"English",topic:"Grammar",difficulty:"Easy",q:"Choose the grammatically correct sentence.",o:["Neither of the boys are present.","Neither of the boys is present.","Neither boys is present.","Neither of boys are present."],a:1,e:"In standard exam grammar, 'neither' takes a singular verb in this construction.",source:"Standard English grammar reference",url:"https://dictionary.cambridge.org/grammar/"},
+ {id:"ENG002",subject:"English",topic:"Vocabulary",difficulty:"Easy",q:"Choose the closest meaning of 'abundant'.",o:["Scarce","Plentiful","Fragile","Brief"],a:1,e:"Abundant means available in large quantities; plentiful.",source:"Cambridge Dictionary",url:"https://dictionary.cambridge.org/"},
+ {id:"ENG003",subject:"English",topic:"Grammar",difficulty:"Medium",q:"Choose the correct passive form: 'The clerk prepared the report.'",o:["The report prepared the clerk.","The report was prepared by the clerk.","The report is prepare by the clerk.","The clerk was prepared by the report."],a:1,e:"Simple past active changes to 'was/were + past participle' in the passive.",source:"Standard English grammar reference",url:"https://dictionary.cambridge.org/grammar/"},
+ {id:"STAT001",subject:"Statistics",topic:"Mean",difficulty:"Easy",q:"What is the arithmetic mean of 2, 4, 6 and 8?",o:["4","5","6","20"],a:1,e:"Mean = (2 + 4 + 6 + 8) / 4 = 5.",source:"Standard statistics textbook",url:"https://ncert.nic.in/"},
+ {id:"STAT002",subject:"Statistics",topic:"Median",difficulty:"Easy",q:"What is the median of 3, 5, 7, 9 and 11?",o:["5","7","8","9"],a:1,e:"The middle value of the ordered five observations is 7.",source:"Standard statistics textbook",url:"https://ncert.nic.in/"},
+ {id:"STAT003",subject:"Statistics",topic:"Probability",difficulty:"Medium",q:"A fair coin is tossed once. What is the probability of getting heads?",o:["0","1/4","1/2","1"],a:2,e:"There are two equally likely outcomes, so the probability of heads is 1/2.",source:"Standard mathematics/statistics reference",url:"https://ncert.nic.in/"},
+ {id:"MATH001",subject:"Mathematics",topic:"Percentage",difficulty:"Easy",q:"What is 20% of 250?",o:["25","40","50","60"],a:2,e:"20/100 × 250 = 50.",source:"Standard quantitative aptitude reference",url:"https://ncert.nic.in/"},
+ {id:"MATH002",subject:"Mathematics",topic:"Ratio",difficulty:"Easy",q:"Simplify the ratio 12:18.",o:["2:3","3:2","4:9","6:5"],a:0,e:"Divide both terms by their highest common factor, 6, to obtain 2:3.",source:"Standard quantitative aptitude reference",url:"https://ncert.nic.in/"},
+ {id:"MATH003",subject:"Mathematics",topic:"Simple Interest",difficulty:"Medium",q:"Find simple interest on ₹1,000 at 5% per annum for 2 years.",o:["₹50","₹100","₹150","₹200"],a:1,e:"Simple interest = Principal × Rate × Time / 100 = ₹100.",source:"Standard quantitative aptitude reference",url:"https://ncert.nic.in/"},
+ {id:"ECO001",subject:"Economics",topic:"RBI",difficulty:"Easy",q:"Which institution is India's central bank?",o:["SEBI","NABARD","Reserve Bank of India","NITI Aayog"],a:2,e:"The Reserve Bank of India is India's central bank.",source:"Reserve Bank of India",url:"https://www.rbi.org.in/"},
+ {id:"ECO002",subject:"Economics",topic:"Inflation",difficulty:"Easy",q:"Inflation generally refers to:",o:["A sustained rise in the general price level","A fall in every price","An increase in exports only","A decrease in money supply only"],a:0,e:"Inflation is a sustained increase in the general price level of goods and services.",source:"RBI educational resources",url:"https://www.rbi.org.in/"},
+ {id:"SCI001",subject:"General Science",topic:"Human Body",difficulty:"Easy",q:"Which organ pumps blood through the human circulatory system?",o:["Liver","Heart","Lungs","Kidney"],a:1,e:"The heart pumps blood through the circulatory system.",source:"NCERT Science",url:"https://ncert.nic.in/"},
+ {id:"COMP001",subject:"Computers",topic:"Basics",difficulty:"Easy",q:"Which component is commonly called the computer's main processing unit?",o:["CPU","Monitor","Keyboard","Printer"],a:0,e:"The Central Processing Unit executes instructions and processes data.",source:"Computer fundamentals reference",url:"https://ncert.nic.in/"}
+];
+
+let state = loadState();
+let practiceQueue = [];
+let practiceIndex = 0;
+let exam = null;
+let revisionQueue = [];
+let revisionIndex = 0;
+let revisionRevealed = false;
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if (saved && Array.isArray(saved.questions)) {
+      return {
+        questions: saved.questions,
+        bookmarks: saved.bookmarks || [],
+        mistakes: saved.mistakes || [],
+        attempts: saved.attempts || [],
+        revision: saved.revision || {},
+        customIds: saved.customIds || []
+      };
+    }
+  } catch (e) {}
+  return {questions:seedQuestions.slice(),bookmarks:[],mistakes:[],attempts:[],revision:{},customIds:[]};
 }
-function updateStats(){
- document.getElementById("total").textContent=stats.attempted;
- document.getElementById("accuracy").textContent=stats.attempted?Math.round(stats.correct/stats.attempted*100)+"%":"0%";
- document.getElementById("streak").textContent=stats.correct;
- document.getElementById("progressbar").style.width=Math.min(100,stats.attempted%11/10*100)+"%";
- document.getElementById("progressText").textContent=stats.attempted+" answered · "+stats.correct+" correct. Keep practising!";
- document.getElementById("bankCount").textContent=questions.length+" MCQs available · "+cards.length+" flashcards available.";
+
+function persist() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch (e) { console.warn("Could not save StudySprint data", e); }
 }
-function showTab(tab){
- document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
- document.getElementById(tab).classList.remove("hidden");
- document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
- if(tab==="cards")renderCard();
- if(tab==="manage")updateStats();
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
-document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
-function startQuiz(){
- const subject=document.getElementById("subject").value;
- deck=questions.filter(q=>subject==="All"||q.subject===subject);
- deck=deck.map(q=>({...q})).sort(()=>Math.random()-.5);
- index=0;showTab("quiz");renderQuestion();
+
+function shuffle(list) {
+  const arr = list.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
 }
-function renderQuestion(){
- const q=deck[index];
- document.getElementById("feedback").className="hidden";
- document.getElementById("feedback").textContent="";
- document.getElementById("nextBtn").disabled=true;answered=false;
- if(!q){
- document.getElementById("question").textContent="Practice session complete! 🎉";
- document.getElementById("options").innerHTML="";
- document.getElementById("qCount").textContent=deck.length+" questions";
- document.getElementById("quizbar").style.width="100%";
- document.getElementById("nextBtn").textContent="Practise again";
- document.getElementById("nextBtn").disabled=false;
- document.getElementById("nextBtn").onclick=startQuiz;
- return;
- }
- document.getElementById("nextBtn").textContent="Next question →";
- document.getElementById("nextBtn").onclick=nextQuestion;
- document.getElementById("qSubject").textContent=q.subject;
- document.getElementById("qCount").textContent=(index+1)+" / "+deck.length;
- document.getElementById("quizbar").style.width=(index/deck.length*100)+"%";
- document.getElementById("question").textContent=q.q;
- const options=document.getElementById("options");options.innerHTML="";
- q.o.forEach((opt,i)=>{
- const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+". "+opt;
- b.onclick=()=>chooseAnswer(i);options.appendChild(b);
- });
+
+function getQuestion(id) { return state.questions.find(q => q.id === id); }
+function uniqueValues(key) { return [...new Set(state.questions.map(q => q[key]).filter(Boolean))].sort(); }
+function isBookmarked(id) { return state.bookmarks.includes(id); }
+
+function populateFilters() {
+  const subject = document.getElementById("subject");
+  const examSubject = document.getElementById("examSubject");
+  const topics = document.getElementById("topic");
+  const examTopic = document.getElementById("examTopic");
+  const oldSubject = subject.value;
+  const oldExamSubject = examSubject.value;
+  subject.innerHTML = '<option value="all">All subjects</option>' + uniqueValues("subject").map(s=>`<option value="${escapeHTML(s)}">${escapeHTML(s)}</option>`).join("");
+  examSubject.innerHTML = '<option value="all">All subjects</option>' + uniqueValues("subject").map(s=>`<option value="${escapeHTML(s)}">${escapeHTML(s)}</option>`).join("");
+  if ([...subject.options].some(o=>o.value===oldSubject)) subject.value=oldSubject;
+  if ([...examSubject.options].some(o=>o.value===oldExamSubject)) examSubject.value=oldExamSubject;
+  fillTopicSelect(topics, subject.value, "All topics");
+  fillTopicSelect(examTopic, examSubject.value, "All topics");
+  renderDashboard();
+  renderSaved();
+  renderManageSummary();
 }
-function chooseAnswer(choice){
- if(answered)return;answered=true;
- const q=deck[index],correct=choice===q.a;
- stats.attempted++;if(correct)stats.correct++;save();updateStats();
- document.querySelectorAll("#options button").forEach((b,i)=>{
- b.disabled=true;if(i===q.a)b.classList.add("correct");else if(i===choice)b.classList.add("wrong");
- });
- const f=document.getElementById("feedback");f.className="feedback "+(correct?"good":"bad");
- f.textContent=(correct?"Correct! ":"Not quite. Correct answer: "+q.o[q.a]+". ")+(q.e||"");
- document.getElementById("nextBtn").disabled=false;
+
+function fillTopicSelect(select, selectedSubject, allLabel) {
+  const current = select.value;
+  const topics = [...new Set(state.questions.filter(q=>selectedSubject==="all"||q.subject===selectedSubject).map(q=>q.topic))].sort();
+  select.innerHTML = `<option value="all">${allLabel}</option>` + topics.map(t=>`<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join("");
+  if ([...select.options].some(o=>o.value===current)) select.value=current;
 }
-function nextQuestion(){if(!answered)return;index++;renderQuestion();}
-function renderCard(){
- if(!cards.length)return;
- const c=cards[cardIndex%cards.length];flipped=false;
- document.getElementById("front").textContent=c.q;
- document.getElementById("back").textContent=c.a;
- document.getElementById("back").classList.add("hidden");
- document.getElementById("cardCount").textContent="Card "+(cardIndex+1)+" of "+cards.length;
+
+document.getElementById("subject").addEventListener("change",()=>fillTopicSelect(document.getElementById("topic"),document.getElementById("subject").value,"All topics"));
+document.getElementById("examSubject").addEventListener("change",()=>fillTopicSelect(document.getElementById("examTopic"),document.getElementById("examSubject").value,"All topics"));
+
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(el=>el.classList.remove("active"));
+  const target=document.getElementById("page-"+page);
+  if(target) target.classList.add("active");
+  const btn=document.querySelector(`.nav-btn[data-page="${page}"]`);
+  if(btn) btn.classList.add("active");
+  if(page==="saved") renderSaved();
+  if(page==="manage") renderManageSummary();
+  if(page==="revision") renderRevisionList();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-function flipCard(){flipped=!flipped;document.getElementById("back").classList.toggle("hidden",!flipped);}
-function nextCard(){cardIndex=(cardIndex+1)%cards.length;renderCard();}
-function prevCard(){cardIndex=(cardIndex-1+cards.length)%cards.length;renderCard();}
-document.getElementById("addForm").addEventListener("submit",e=>{
- e.preventDefault();
- questions.push({subject:document.getElementById("newSubject").value,q:document.getElementById("newQuestion").value.trim(),o:["a","b","c","d"].map(id=>document.getElementById(id).value.trim()),a:Number(document.getElementById("correct").value),e:document.getElementById("explanation").value.trim()});
- save();e.target.reset();updateStats();
- document.getElementById("manageMsg").textContent="Question saved successfully!";
+
+function renderDashboard() {
+  const attempts=state.attempts;
+  const correct=attempts.filter(a=>a.correct).length;
+  const pct=attempts.length?Math.round(correct/attempts.length*100):0;
+  document.getElementById("attempts").textContent=attempts.length;
+  document.getElementById("accuracy").textContent=pct+"%";
+  const due=state.mistakes.length + Object.entries(state.revision).filter(([id,r])=>r.due && r.due<=Date.now()).length;
+  document.getElementById("due").textContent=due;
+  const today=new Date().toDateString();
+  const done=attempts.filter(a=>new Date(a.time).toDateString()===today).length;
+  document.getElementById("todayBar").style.width=Math.min(100,done/20*100)+"%";
+  document.getElementById("todayText").textContent=`${done} question${done===1?"":"s"} attempted today. Aim for 20.`;
+  const verified=state.questions.filter(q=>q.source && q.url).length;
+  document.getElementById("bankStatus").textContent=`${state.questions.length} questions · ${verified} with source links`;
+}
+
+function getFilteredQuestions(subject,topic,difficulty) {
+  return state.questions.filter(q=>(subject==="all"||q.subject===subject)&&(topic==="all"||q.topic===topic)&&(difficulty==="all"||q.difficulty===difficulty));
+}
+
+function startPractice() {
+  const subject=document.getElementById("subject").value;
+  const topic=document.getElementById("topic").value;
+  const difficulty=document.getElementById("difficulty").value;
+  practiceQueue=shuffle(getFilteredQuestions(subject,topic,difficulty));
+  practiceIndex=0;
+  if(!practiceQueue.length){alert("No questions match these filters. Add questions or choose another topic.");return;}
+  showPage("practice");
+  renderPractice();
+}
+
+function renderPractice() {
+  const q=practiceQueue[practiceIndex];
+  if(!q)return;
+  document.getElementById("pMeta").textContent=`${q.subject} · ${q.topic} · ${q.difficulty}`;
+  document.getElementById("pCount").textContent=`Question ${practiceIndex+1} of ${practiceQueue.length}`;
+  document.getElementById("pBar").style.width=((practiceIndex+1)/practiceQueue.length*100)+"%";
+  document.getElementById("pQuestion").textContent=q.q;
+  document.getElementById("pOptions").innerHTML=q.o.map((option,i)=>`<button class="option" data-option="${i}" onclick="answerPractice(${i})"><span class="option-letter">${"ABCD"[i]}</span><span>${escapeHTML(option)}</span></button>`).join("");
+  document.getElementById("pFeedback").innerHTML="";
+  document.getElementById("pNext").disabled=true;
+  document.getElementById("bookmarkBtn").textContent=isBookmarked(q.id)?"★ Bookmarked":"☆ Bookmark";
+  document.getElementById("pSource").innerHTML=q.source?`Source: ${escapeHTML(q.source)}${q.url?` · <a href="${escapeHTML(q.url)}" target="_blank" rel="noopener">Open reference ↗</a>`:""}`:"Source not supplied. Verify before relying on this question.";
+}
+
+function answerPractice(index) {
+  const q=practiceQueue[practiceIndex];
+  if(!q||document.querySelector("#pOptions .option.answered"))return;
+  const correct=index===Number(q.a);
+  document.querySelectorAll("#pOptions .option").forEach((btn,i)=>{
+    btn.classList.add("answered");
+    if(i===Number(q.a))btn.classList.add("correct");
+    if(i===index&&!correct)btn.classList.add("wrong");
+    btn.disabled=true;
+  });
+  recordAttempt(q,index,correct,"practice");
+  document.getElementById("pFeedback").innerHTML=`<div class="feedback ${correct?"good":"bad"}"><strong>${correct?"Correct!":"Not quite."}</strong><p>${escapeHTML(q.e||"No explanation has been added yet.")}</p></div>`;
+  document.getElementById("pNext").disabled=false;
+  persist();renderDashboard();
+}
+
+function recordAttempt(q,chosen,correct,mode) {
+  state.attempts.push({id:q.id,chosen:Number(chosen),correct:!!correct,mode,time:Date.now()});
+  if(correct) {
+    state.mistakes=state.mistakes.filter(id=>id!==q.id);
+  } else if(!state.mistakes.includes(q.id)) {
+    state.mistakes.push(q.id);
+  }
+}
+
+function nextPractice() {
+  if(practiceIndex<practiceQueue.length-1){practiceIndex++;renderPractice();}
+  else {
+    const total=practiceQueue.length;
+    const answered=state.attempts.filter(a=>a.mode==="practice"&&practiceQueue.some(q=>q.id===a.id)).length;
+    document.getElementById("pQuestion").textContent="Practice set complete!";
+    document.getElementById("pMeta").textContent="Session finished";
+    document.getElementById("pOptions").innerHTML=`<p>You reached the end of this set of ${total} questions. Review mistakes or start another set.</p><button class="primary" onclick="startPractice()">Practice again</button><button class="secondary" onclick="showPage('saved')">Review saved questions</button>`;
+    document.getElementById("pFeedback").innerHTML="";
+    document.getElementById("pNext").disabled=true;
+  }
+}
+function previousPractice(){if(practiceIndex>0){practiceIndex--;renderPractice();}}
+function toggleBookmark() {
+  const q=practiceQueue[practiceIndex];if(!q)return;
+  if(isBookmarked(q.id))state.bookmarks=state.bookmarks.filter(id=>id!==q.id);
+  else state.bookmarks.push(q.id);
+  persist();document.getElementById("bookmarkBtn").textContent=isBookmarked(q.id)?"★ Bookmarked":"☆ Bookmark";renderSaved();renderDashboard();
+}
+
+function renderManageSummary() {
+  const custom=state.questions.filter(q=>state.customIds.includes(q.id)).length;
+  document.getElementById("manageSummary").textContent=`${state.questions.length} total questions · ${custom} added by you · ${state.bookmarks.length} bookmarks · ${state.mistakes.length} questions to review`;
+}
+
+function renderSaved() {
+  const container=document.getElementById("savedList");
+  if(!container)return;
+  const items=[
+    ...state.bookmarks.map(id=>({id,type:"Bookmark"})),
+    ...state.mistakes.filter(id=>!state.bookmarks.includes(id)).map(id=>({id,type:"Mistake"}))
+  ];
+  if(!items.length){container.innerHTML='<div class="empty-state">No bookmarks or mistakes yet. Bookmark questions while practising, or answer some questions to build your mistakes list.</div>';return;}
+  container.innerHTML=items.map(item=>{
+    const q=getQuestion(item.id);if(!q)return "";
+    return `<article class="saved-item"><div class="saved-tag">${item.type}</div><h3>${escapeHTML(q.q)}</h3><p>${escapeHTML(q.subject)} · ${escapeHTML(q.topic)} · Correct answer: ${escapeHTML(q.o[q.a])}</p><p>${escapeHTML(q.e||"No explanation available.")}</p><div class="saved-actions"><button class="secondary" onclick="practiceOne('${escapeHTML(q.id)}')">Practise</button><button class="secondary" onclick="removeSaved('${escapeHTML(q.id)}','${item.type}')">Remove ${item.type.toLowerCase()}</button></div></article>`;
+  }).join("");
+}
+
+function practiceOne(id) {
+  const q=getQuestion(id);if(!q)return;
+  practiceQueue=[q];practiceIndex=0;showPage("practice");renderPractice();
+}
+function removeSaved(id,type) {
+  if(type==="Bookmark")state.bookmarks=state.bookmarks.filter(x=>x!==id);
+  else state.mistakes=state.mistakes.filter(x=>x!==id);
+  persist();renderSaved();renderManageSummary();renderDashboard();
+  }
+  
+function beginExam() {
+  const subject=document.getElementById("examSubject").value;
+  const topic=document.getElementById("examTopic").value;
+  const requested=Math.max(1,Math.min(200,Number(document.getElementById("examCount").value)||20));
+  const pool=shuffle(getFilteredQuestions(subject,topic,"all"));
+  if(!pool.length){alert("No questions match these exam filters.");return;}
+  const questions=pool.slice(0,Math.min(requested,pool.length));
+  exam={questions,answers:{},review:[],index:0,started:Date.now(),duration:questions.length*60,finished:false,timerId:null};
+  document.getElementById("examIntro").classList.add("hidden");
+  document.getElementById("examTest").classList.remove("hidden");
+  document.getElementById("examResult").classList.add("hidden");
+  showPage("exam");
+  renderExamQuestion();
+  renderPalette();
+  updateTimer();
+  exam.timerId=setInterval(updateTimer,1000);
+}
+
+function updateTimer() {
+  if(!exam||exam.finished)return;
+  const remaining=Math.max(0,exam.duration-Math.floor((Date.now()-exam.started)/1000));
+  const minutes=Math.floor(remaining/60);
+  const seconds=remaining%60;
+  document.getElementById("timer").textContent=`${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+  if(remaining<=0)submitExam(true);
+}
+
+function renderExamQuestion() {
+  if(!exam||exam.finished)return;
+  const q=exam.questions[exam.index];
+  document.getElementById("eMeta").textContent=`${q.subject} · ${q.topic} · ${q.difficulty}`;
+  document.getElementById("eQuestion").textContent=q.q;
+  document.getElementById("eBar").style.width=((exam.index+1)/exam.questions.length*100)+"%";
+  document.getElementById("eOptions").innerHTML=q.o.map((option,i)=>{
+    const selected=exam.answers[q.id]===i;
+    return `<button class="option ${selected?"selected":""}" onclick="chooseExamAnswer(${i})"><span class="option-letter">${"ABCD"[i]}</span><span>${escapeHTML(option)}</span></button>`;
+  }).join("");
+  renderPalette();
+}
+
+function chooseExamAnswer(index) {
+  if(!exam||exam.finished)return;
+  const q=exam.questions[exam.index];
+  exam.answers[q.id]=index;
+  renderExamQuestion();
+}
+
+function renderPalette() {
+  const el=document.getElementById("palette");
+  if(!exam||!el)return;
+  el.innerHTML=exam.questions.map((q,i)=>{
+    const answered=Object.prototype.hasOwnProperty.call(exam.answers,q.id);
+    const review=exam.review.includes(q.id);
+    return `<button class="palette-btn ${i===exam.index?"current":""} ${answered?"answered":""} ${review?"review":""}" onclick="moveExam(${i})" aria-label="Question ${i+1}">${i+1}</button>`;
+  }).join("");
+}
+
+function moveExam(index) {
+  if(!exam||exam.finished)return;
+  exam.index=Math.max(0,Math.min(exam.questions.length-1,index));
+  renderExamQuestion();
+}
+function clearAnswer() {
+  if(!exam||exam.finished)return;
+  delete exam.answers[exam.questions[exam.index].id];
+  renderExamQuestion();
+}
+function markReview() {
+  if(!exam||exam.finished)return;
+  const id=exam.questions[exam.index].id;
+  if(exam.review.includes(id))exam.review=exam.review.filter(x=>x!==id);
+  else exam.review.push(id);
+  renderExamQuestion();
+}
+function saveNext() {
+  if(!exam||exam.finished)return;
+  if(exam.index<exam.questions.length-1)moveExam(exam.index+1);
+  else {
+    const unanswered=exam.questions.filter(q=>!Object.prototype.hasOwnProperty.call(exam.answers,q.id)).length;
+    if(confirm(`You have reached the last question. Unanswered: ${unanswered}. Submit the exam now?`))submitExam(false);
+  }
+}
+
+function submitExam(timeExpired=false) {
+  if(!exam||exam.finished)return;
+  if(!timeExpired&&!confirm("Submit this exam? You will not be able to change answers afterward."))return;
+  exam.finished=true;
+  if(exam.timerId)clearInterval(exam.timerId);
+  let correct=0,wrong=0,unanswered=0;
+  exam.questions.forEach(q=>{
+    const has=Object.prototype.hasOwnProperty.call(exam.answers,q.id);
+    if(!has){unanswered++;return;}
+    const chosen=exam.answers[q.id];
+    const isCorrect=Number(chosen)===Number(q.a);
+    if(isCorrect)correct++;else wrong++;
+    recordAttempt(q,chosen,isCorrect,"exam");
+  });
+  persist();
+  renderDashboard();
+  const total=exam.questions.length;
+  const pct=Math.round(correct/total*100);
+  document.getElementById("examTest").classList.add("hidden");
+  const result=document.getElementById("examResult");
+  result.classList.remove("hidden");
+  result.innerHTML=`<div class="result-card"><h2>Exam complete${timeExpired?" (time expired)":""}</h2><div class="result-score">${correct}/${total}</div><p>${pct}% accuracy · ${wrong} incorrect · ${unanswered} unanswered</p><p>Review the explanations below before your next attempt.</p><div class="result-actions"><button class="primary" onclick="showExamReview()">Review answers</button><button class="secondary" onclick="resetExamScreen()">New exam</button></div></div>`;
+}
+
+function showExamReview() {
+  if(!exam)return;
+  const result=document.getElementById("examResult");
+  const rows=exam.questions.map((q,i)=>{
+    const has=Object.prototype.hasOwnProperty.call(exam.answers,q.id);
+    const chosen=has?Number(exam.answers[q.id]):-1;
+    const correct=has&&chosen===Number(q.a);
+    return `<article class="saved-item"><div class="saved-tag">Question ${i+1} · ${correct?"Correct":has?"Incorrect":"Unanswered"}</div><h3>${escapeHTML(q.q)}</h3><p>Your answer: ${chosen>=0?escapeHTML(q.o[chosen]):"Not answered"}</p><p><strong>Correct answer:</strong> ${escapeHTML(q.o[q.a])}</p><p>${escapeHTML(q.e||"No explanation available.")}</p><p class="source-line">${q.source?`Source: ${escapeHTML(q.source)}`:"Source not supplied"}${q.url?` · <a href="${escapeHTML(q.url)}" target="_blank" rel="noopener">Open reference ↗</a>`:""}</p></article>`;
+  }).join("");
+  result.innerHTML=`<h2>Answer review</h2>${rows}<button class="primary" onclick="resetExamScreen()">Finish review</button>`;
+}
+
+function resetExamScreen() {
+  if(exam&&exam.timerId)clearInterval(exam.timerId);
+  exam=null;
+  document.getElementById("examIntro").classList.remove("hidden");
+  document.getElementById("examTest").classList.add("hidden");
+  document.getElementById("examResult").classList.add("hidden");
+  showPage("home");
+}
+
+function startRevision() {
+  const dueMistakes=state.mistakes.map(id=>getQuestion(id)).filter(Boolean);
+  const dueCards=Object.entries(state.revision).filter(([id,r])=>r.due&&r.due<=Date.now()).map(([id])=>getQuestion(id)).filter(Boolean);
+  const combined=[...dueMistakes,...dueCards];
+  const unique=new Map(combined.map(q=>[q.id,q]));
+  revisionQueue=shuffle([...unique.values()]);
+  if(!revisionQueue.length) {
+    revisionQueue=shuffle(state.questions.filter(q=>isBookmarked(q.id)));
+  }
+  revisionIndex=0;
+  revisionRevealed=false;
+  showPage("revision");
+  renderRevisionCard();
+  renderRevisionList();
+}
+
+function renderRevisionCard() {
+  const card=document.getElementById("rCard");
+  const controls=document.getElementById("rControls");
+  document.getElementById("rCount").textContent=revisionQueue.length?`Card ${revisionIndex+1} of ${revisionQueue.length}`:"Daily revision";
+  if(!revisionQueue.length) {
+    card.innerHTML='<div class="empty-state"><h3>You are all caught up!</h3><p>Questions you answer incorrectly or bookmark will appear here. You can also add questions to revision below.</p></div>';
+    controls.innerHTML='<button class="secondary" onclick="showPage(\'saved\')">View bookmarks and mistakes</button>';
+    return;
+  }
+  const q=revisionQueue[revisionIndex];
+  card.innerHTML=`<div class="revision-subject">${escapeHTML(q.subject)} · ${escapeHTML(q.topic)}</div><h2>${escapeHTML(q.q)}</h2>${revisionRevealed?`<div class="revision-answer"><strong>Answer: ${escapeHTML(q.o[q.a])}</strong><p>${escapeHTML(q.e||"No explanation added.")}</p>${q.source?`<p>Source: ${escapeHTML(q.source)}</p>`:""}</div>`:'<p class="muted">Try to recall the answer before revealing it.</p>'}`;
+  controls.innerHTML=revisionRevealed
+    ?'<p>How well did you remember?</p><button class="secondary" onclick="rateRevision(0)">Again</button><button class="secondary" onclick="rateRevision(1)">Hard</button><button class="primary" onclick="rateRevision(2)">Got it</button>'
+    :'<button class="primary" onclick="revealRevision()">Reveal answer</button>';
+}
+
+function revealRevision() {
+  revisionRevealed=true;
+  renderRevisionCard();
+}
+function rateRevision(rating) {
+  const q=revisionQueue[revisionIndex];
+  if(!q)return;
+  const previous=state.revision[q.id]||{interval:0,ease:2.5};
+  let interval=rating===0?1:rating===1?Math.max(1,Math.round((previous.interval||1)*1.5)):Math.max(1,Math.round((previous.interval||1)*2.5));
+  const ease=rating===0?Math.max(1.3,previous.ease-0.2):rating===2?Math.min(3.0,previous.ease+0.1):previous.ease;
+  state.revision[q.id]={interval,ease,due:Date.now()+interval*24*60*60*1000,lastReviewed:Date.now()};
+  if(rating===2)state.mistakes=state.mistakes.filter(id=>id!==q.id);
+  else if(!state.mistakes.includes(q.id))state.mistakes.push(q.id);
+  persist();
+  revisionIndex++;
+  revisionRevealed=false;
+  if(revisionIndex>=revisionQueue.length) {
+    revisionQueue=[];
+    revisionIndex=0;
+  }
+  renderRevisionCard();
+  renderRevisionList();
+  renderDashboard();
+  renderSaved();
+}
+
+function renderRevisionList() {
+  const el=document.getElementById("rList");
+  if(!el)return;
+  const ids=[...new Set([...state.mistakes,...state.bookmarks,...Object.keys(state.revision)])];
+  const qs=ids.map(id=>getQuestion(id)).filter(Boolean);
+  if(!qs.length){el.innerHTML='<div class="empty-state">Your revision list is empty. Bookmark questions or answer incorrectly to add them.</div>';return;}
+  el.innerHTML=qs.map(q=>{
+    const r=state.revision[q.id];
+    const due=r&&r.due<=Date.now();
+    return `<article class="saved-item"><h3>${escapeHTML(q.q)}</h3><p>${escapeHTML(q.subject)} · ${escapeHTML(q.topic)} · ${due?"Due now":r?"Scheduled for later":state.mistakes.includes(q.id)?"Mistake to review":"Bookmarked"}</p><button class="secondary" onclick="practiceOne('${escapeHTML(q.id)}')">Practise now</button></article>`;
+  }).join("");
+  }
+  
+function addQuestion(event) {
+  event.preventDefault();
+  const subject=document.getElementById("newSubject").value.trim();
+  const topic=document.getElementById("newTopic").value.trim();
+  const difficulty=document.getElementById("newDifficulty").value;
+  const question=document.getElementById("newQuestion").value.trim();
+  const options=[0,1,2,3].map(i=>document.getElementById("o"+i).value.trim());
+  const answer=Number(document.getElementById("newAnswer").value);
+  const explanation=document.getElementById("newExplanation").value.trim();
+  const source=document.getElementById("newSource").value.trim();
+  const url=document.getElementById("newURL").value.trim();
+
+  if(!subject||!topic||!question||options.some(o=>!o)) {
+    document.getElementById("addMessage").textContent="Please complete the subject, topic, question and all four options.";
+    return;
+  }
+  if(url&&!/^https:\/\/[^\s]+$/i.test(url)) {
+    document.getElementById("addMessage").textContent="Please use a valid HTTPS source link, or leave the link empty.";
+    return;
+  }
+
+  const id="CUSTOM-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7);
+  state.questions.push({
+    id,subject,topic,difficulty,q:question,o:options,a:answer,
+    e:explanation||"No explanation supplied yet.",
+    source:source||"User-added question; source not independently verified.",
+    url
+  });
+  state.customIds.push(id);
+  persist();
+  document.getElementById("addForm").reset();
+  document.getElementById("addMessage").textContent="Question added successfully. Remember to verify its answer and source.";
+  populateFilters();
+  renderManageSummary();
+}
+
+document.getElementById("addForm").addEventListener("submit",addQuestion);
+
+function downloadText(filename,content,type="application/json") {
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function exportBackup() {
+  const backup={
+    app:"StudySprint",
+    version:2,
+    exportedAt:new Date().toISOString(),
+    data:state
+  };
+  downloadText("studysprint-backup.json",JSON.stringify(backup,null,2));
+}
+
+function exportMistakes() {
+  const questions=state.mistakes.map(id=>getQuestion(id)).filter(Boolean);
+  const rows=[["ID","Subject","Topic","Question","Option A","Option B","Option C","Option D","Correct Answer","Explanation","Source","Source URL"]];
+  questions.forEach(q=>rows.push([
+    q.id,q.subject,q.topic,q.q,...q.o,q.o[q.a],q.e||"",q.source||"",q.url||""
+  ]));
+  const csv=rows.map(row=>row.map(value=>'"'+String(value??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
+  downloadText("studysprint-mistakes.csv","\uFEFF"+csv,"text/csv;charset=utf-8");
+}
+
+document.getElementById("importFile").addEventListener("change",async function(event) {
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  try {
+    const parsed=JSON.parse(await file.text());
+    const incoming=parsed.data||parsed;
+    if(!incoming||!Array.isArray(incoming.questions))throw new Error("This file does not contain a StudySprint question bank.");
+    const valid=incoming.questions.every(q=>q&&typeof q.id==="string"&&typeof q.q==="string"&&Array.isArray(q.o)&&q.o.length===4&&Number.isInteger(Number(q.a))&&Number(q.a)>=0&&Number(q.a)<=3);
+    if(!valid)throw new Error("One or more questions are invalid. Nothing was imported.");
+    if(!confirm("Importing will replace the current questions, bookmarks, mistakes and progress with the data in this file. Export a backup first if you want to keep your current data. Continue?"))return;
+
+    state={
+      questions:incoming.questions,
+      bookmarks:Array.isArray(incoming.bookmarks)?incoming.bookmarks:[],
+      mistakes:Array.isArray(incoming.mistakes)?incoming.mistakes:[],
+      attempts:Array.isArray(incoming.attempts)?incoming.attempts:[],
+      revision:incoming.revision&&typeof incoming.revision==="object"?incoming.revision:{},
+      customIds:Array.isArray(incoming.customIds)?incoming.customIds:[]
+    };
+    persist();
+    populateFilters();
+    renderSaved();
+    renderManageSummary();
+    renderDashboard();
+    alert("Backup imported successfully.");
+  } catch(error) {
+    alert("Import failed: "+error.message);
+  } finally {
+    event.target.value="";
+  }
 });
-function exportData(){
- const data={questions,cards,stats};
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download="studysprint-backup.json";a.click();URL.revokeObjectURL(url);
+
+function resetStats() {
+  if(!confirm("Reset all attempts, accuracy, mistakes, bookmarks and revision scheduling? Your questions will be kept. Export a backup first if needed."))return;
+  state.bookmarks=[];
+  state.mistakes=[];
+  state.attempts=[];
+  state.revision={};
+  persist();
+  renderDashboard();
+  renderSaved();
+  renderRevisionList();
+  renderManageSummary();
+  alert("Your progress has been reset. Your question bank remains intact.");
 }
-document.getElementById("importFile").addEventListener("change",async e=>{
- const file=e.target.files[0];if(!file)return;
- try{
- const data=JSON.parse(await file.text());
- if(!Array.isArray(data.questions))throw Error("Backup must contain a questions array.");
- if(!data.questions.every(q=>q&&typeof q.q==="string"&&Array.isArray(q.o)&&q.o.length===4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&typeof q.subject==="string"))throw Error("One or more questions have an invalid format.");
- questions=data.questions;
- if(Array.isArray(data.cards))cards=data.cards;
- if(data.stats&&Number.isFinite(data.stats.attempted)&&Number.isFinite(data.stats.correct))stats=data.stats;
- save();updateStats();document.getElementById("manageMsg").textContent="Backup imported successfully.";
- }catch(err){alert("Import failed: "+err.message);}
- e.target.value="";
-});
-function clearProgress(){
- if(confirm("Reset your saved question statistics? Your questions will remain.")){
- stats={attempted:0,correct:0};save();updateStats();
- }
+
+function validateQuestionBank() {
+  const seen=new Set();
+  const problems=[];
+  state.questions.forEach((q,index)=>{
+    if(seen.has(q.id))problems.push(`Duplicate question ID: ${q.id}`);
+    seen.add(q.id);
+    if(!q.q||!Array.isArray(q.o)||q.o.length!==4)problems.push(`Question ${index+1}: missing question text or four options.`);
+    if(!Number.isInteger(Number(q.a))||Number(q.a)<0||Number(q.a)>3)problems.push(`Question ${index+1}: invalid answer key.`);
+  });
+  return problems;
 }
-updateStats();renderCard();
+
+function initStudySprint() {
+  const problems=validateQuestionBank();
+  if(problems.length) {
+    document.getElementById("bankStatus").textContent=`Question bank needs attention: ${problems.length} validation issue(s).`;
+    console.warn("StudySprint validation issues:",problems);
+  }
+  populateFilters();
+  renderDashboard();
+  renderSaved();
+  renderManageSummary();
+  renderRevisionList();
+}
+
+initStudySprint();
 </script>
 </body>
-      </html>
-      
+</html>
