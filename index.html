@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173b70">
+<title>StudySprint | Exam Preparation</title>
+<style>
+:root{--blue:#173b70;--light:#eef4ff;--green:#16804a;--red:#c0392b;--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#657087}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:var(--blue);color:white;padding:22px 16px}
+header h1{margin:0;font-size:27px}
+header p{margin:5px 0 0;color:#dbe7ff;font-size:14px}
+main{max-width:850px;margin:auto;padding:16px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px}
+button,.btn{border:0;border-radius:10px;padding:11px 14px;font-size:14px;font-weight:650;cursor:pointer}
+nav button{background:#e2e9f5;color:var(--blue);white-space:nowrap}
+nav button.active,.primary{background:var(--blue);color:white}
+.card{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 3px 15px #182e5010}
+h2{font-size:21px;margin:0 0 12px}
+h3{margin:0 0 8px;font-size:17px}
+p{line-height:1.55}
+.muted{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:white;border-radius:13px;padding:14px 8px;text-align:center}
+.stat strong{display:block;font-size:24px;color:var(--blue)}
+.stat span{font-size:12px;color:var(--muted)}
+.option{display:block;width:100%;text-align:left;background:#f2f5fa;border:1px solid #e0e6ef;margin:9px 0;padding:13px;border-radius:10px;color:var(--text);font-weight:500}
+.option.correct{background:#e3f7eb;border-color:#16804a}
+.option.wrong{background:#ffebe9;border-color:#c0392b}
+.option:disabled{cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row button{margin-top:6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccd5e3;border-radius:9px;font:inherit;margin:6px 0 12px;background:white}
+label{font-size:14px;font-weight:650}
+.hidden{display:none!important}
+.feedback{padding:12px;border-radius:10px;margin:12px 0;font-size:14px}
+.good{background:#e3f7eb;color:#125e37}
+.bad{background:#ffebe9;color:#922d25}
+.flashcard{min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--light);border-radius:14px;padding:24px;cursor:pointer}
+.flashcard .answer{color:var(--green);font-weight:650;margin-top:14px}
+.progress{height:9px;background:#e5eaf2;border-radius:10px;overflow:hidden;margin:10px 0}
+.progress div{height:100%;background:#16804a;width:0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+.small{font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 StudySprint</h1>
+  <p>Your daily companion for JKSSB · JKAS · UPSC</p>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat"><strong id="total">0</strong><span>Questions attempted</span></div>
+    <div class="stat"><strong id="accuracy">0%</strong><span>Accuracy</span></div>
+    <div class="stat"><strong id="streak">0</strong><span>Correct answers</span></div>
+  </div>
+
+  <nav>
+    <button class="active" data-tab="home">🏠 Home</button>
+    <button data-tab="quiz">✍️ MCQ Practice</button>
+    <button data-tab="cards">🗂️ Flashcards</button>
+    <button data-tab="manage">➕ My Questions</button>
+  </nav>
+
+  <section id="home">
+    <div class="card">
+      <h2>Welcome to StudySprint!</h2>
+      <p>Practise objective questions, revise important facts, and track your preparation progress.</p>
+      <label for="subject">Choose a subject</label>
+      <select id="subject">
+        <option value="All">All subjects</option>
+        <option>J&amp;K GK</option>
+        <option>Indian Polity</option>
+        <option>Geography</option>
+        <option>Accountancy</option>
+        <option>Economics</option>
+        <option>Mathematics</option>
+        <option>Statistics</option>
+        <option>General Science</option>
+        <option>Computer</option>
+        <option>English</option>
+      </select>
+      <button class="primary" onclick="startQuiz()">Start MCQ Practice →</button>
+      <button onclick="showTab('cards')">Revise Flashcards</button>
+    </div>
+    <div class="card">
+      <h3>Today's progress</h3>
+      <div class="progress"><div id="progressbar"></div></div>
+      <p id="progressText" class="muted">Answer questions to begin tracking your progress.</p>
+    </div>
+    <div class="card">
+      <h3>Study tip</h3>
+      <p class="muted">Practise daily, review incorrect answers, and revisit difficult topics using flashcards.</p>
+    </div>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <span class="muted" id="qSubject">MCQ Practice</span>
+        <span class="muted" id="qCount"></span>
+      </div>
+      <div class="progress"><div id="quizbar"></div></div>
+      <h2 id="question">Select Start MCQ Practice to begin.</h2>
+      <div id="options"></div>
+      <div id="feedback" class="hidden"></div>
+      <div class="row">
+        <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next question →</button>
+        <button onclick="startQuiz()">Restart</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="cards" class="hidden">
+    <div class="card">
+      <h2>Flashcards</h2>
+      <p class="muted">Tap the card to reveal the answer.</p>
+      <div class="flashcard" onclick="flipCard()">
+        <div id="front">Ready to revise?</div>
+        <div id="back" class="answer hidden"></div>
+      </div>
+      <p class="muted" id="cardCount" style="text-align:center"></p>
+      <div class="row">
+        <button onclick="prevCard()">← Previous</button>
+        <button class="primary" onclick="flipCard()">Reveal / Hide</button>
+        <button onclick="nextCard()">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="manage" class="hidden">
+    <div class="card">
+      <h2>Add your own MCQ</h2>
+      <p class="muted">Create questions from your notes or syllabus. They are saved on this device.</p>
+      <form id="addForm">
+        <label>Subject</label>
+        <select id="newSubject" required>
+          <option>J&amp;K GK</option><option>Indian Polity</option>
+          <option>Geography</option><option>Accountancy</option>
+          <option>Economics</option><option>Mathematics</option>
+          <option>Statistics</option><option>General Science</option>
+          <option>Computer</option><option>English</option>
+          <option>Other</option>
+        </select>
+        <label>Question</label>
+        <textarea id="newQuestion" required placeholder="Enter the question"></textarea>
+        <label>Option A</label><input id="a" required>
+        <label>Option B</label><input id="b" required>
+        <label>Option C</label><input id="c" required>
+        <label>Option D</label><input id="d" required>
+        <label>Correct option</label>
+        <select id="correct"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+        <label>Explanation (optional)</label>
+        <textarea id="explanation" placeholder="Why is this answer correct?"></textarea>
+        <button class="primary" type="submit">Save question</button>
+      </form>
+      <p id="manageMsg" class="muted"></p>
+    </div>
+    <div class="card">
+      <h3>Manage your question bank</h3>
+      <p id="bankCount" class="muted"></p>
+      <div class="row">
+        <button onclick="exportData()">Export backup</button>
+        <button onclick="document.getElementById('importFile').click()">Import backup</button>
+        <button onclick="clearProgress()">Reset progress</button>
+      </div>
+      <input type="file" id="importFile" accept=".json,application/json" class="hidden">
+      <p class="small muted">Export your questions and progress regularly. Browser data can be lost if site data is cleared.</p>
+    </div>
+  </section>
+</main>
+<footer>StudySprint · Independent study tool · Verify facts with reliable sources.</footer>
+
+<script>
+const defaults = [
+{subject:"J&K GK",q:"Which river flows through the Kashmir Valley?",o:["Chenab","Jhelum","Ravi","Tawi"],a:1,e:"The Jhelum flows through the Kashmir Valley."},
+{subject:"J&K GK",q:"Wular Lake is located in which region?",o:["Kashmir Valley","Jammu region","Ladakh","Punjab"],a:0,e:"Wular Lake is in the Kashmir Valley, in Bandipora district."},
+{subject:"J&K GK",q:"Which is the summer capital of Jammu and Kashmir?",o:["Jammu","Srinagar","Leh","Delhi"],a:1,e:"Srinagar is the summer capital; Jammu is the winter capital."},
+{subject:"Indian Polity",q:"Fundamental Rights are contained in which Part of the Indian Constitution?",o:["Part II","Part III","Part IV","Part IVA"],a:1,e:"Fundamental Rights are covered by Part III."},
+{subject:"Indian Polity",q:"Who is the constitutional head of the Union of India?",o:["Prime Minister","Chief Justice","President","Speaker"],a:2,e:"The President is the constitutional head of the Union."},
+{subject:"Geography",q:"Which is the largest ocean on Earth?",o:["Atlantic","Indian","Arctic","Pacific"],a:3,e:"The Pacific Ocean is the largest ocean."},
+{subject:"Geography",q:"The Tropic of Cancer is located at approximately:",o:["0°","23.5° N","23.5° S","66.5° N"],a:1,e:"The Tropic of Cancer lies at about 23.5° north latitude."},
+{subject:"Accountancy",q:"The basic accounting equation is:",o:["Assets = Liabilities + Capital","Assets = Income - Expenses","Capital = Assets + Liabilities","Liabilities = Assets + Capital"],a:0,e:"Assets = Liabilities + Owner's Equity (Capital)."},
+{subject:"Accountancy",q:"Which book records transactions first in chronological order?",o:["Ledger","Trial balance","Journal","Balance sheet"],a:2,e:"The journal is the book of original entry."},
+{subject:"Economics",q:"Which institution issues most banknotes in India?",o:["SBI","RBI","SEBI","NABARD"],a:1,e:"The Reserve Bank of India issues banknotes, except the one-rupee note."},
+{subject:"Mathematics",q:"What is 15% of 200?",o:["15","20","30","35"],a:2,e:"0.15 × 200 = 30."},
+{subject:"Statistics",q:"The arithmetic mean is calculated by:",o:["Largest minus smallest","Sum of observations divided by their number","Most frequent value","Middle observation only"],a:1,e:"Mean = sum of observations / number of observations."},
+{subject:"General Science",q:"Which gas do plants primarily absorb during photosynthesis?",o:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],a:2,e:"Plants use carbon dioxide and water to produce sugars using light energy."},
+{subject:"Computer",q:"Which component is commonly called the brain of a computer?",o:["Monitor","CPU","Keyboard","Printer"],a:1,e:"The CPU executes instructions and processes data."},
+{subject:"English",q:"Choose the synonym of 'abundant'.",o:["Scarce","Plentiful","Tiny","Empty"],a:1,e:"Abundant means plentiful or available in large quantities."}
+];
+const defaultCards = [
+{q:"What is the basic accounting equation?",a:"Assets = Liabilities + Capital."},
+{q:"Which Part of the Constitution contains Fundamental Rights?",a:"Part III (Articles 12–35)."},
+{q:"What is the formula for arithmetic mean?",a:"Mean = Sum of observations ÷ Number of observations."},
+{q:"Which river flows through the Kashmir Valley?",a:"The Jhelum River."},
+{q:"What is the full form of CPU?",a:"Central Processing Unit."},
+{q:"What is the capital of Jammu and Kashmir in summer?",a:"Srinagar. Jammu is the winter capital."},
+{q:"What is the formula for simple interest?",a:"Simple Interest = (Principal × Rate × Time) ÷ 100."},
+{q:"Which institution is India's central bank?",a:"The Reserve Bank of India (RBI)."}
+];
+const load=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch(e){return fallback}};
+let questions=load("ss_questions",defaults);
+let cards=load("ss_cards",defaultCards);
+let stats=load("ss_stats",{attempted:0,correct:0});
+let deck=[],index=0,answered=false,cardIndex=0,flipped=false;
+
+function save(){
+ try{
+ localStorage.setItem("ss_questions",JSON.stringify(questions));
+ localStorage.setItem("ss_cards",JSON.stringify(cards));
+ localStorage.setItem("ss_stats",JSON.stringify(stats));
+ }catch(e){alert("Could not save data. Please check your browser storage.");}
+}
+function updateStats(){
+ document.getElementById("total").textContent=stats.attempted;
+ document.getElementById("accuracy").textContent=stats.attempted?Math.round(stats.correct/stats.attempted*100)+"%":"0%";
+ document.getElementById("streak").textContent=stats.correct;
+ document.getElementById("progressbar").style.width=Math.min(100,stats.attempted%11/10*100)+"%";
+ document.getElementById("progressText").textContent=stats.attempted+" answered · "+stats.correct+" correct. Keep practising!";
+ document.getElementById("bankCount").textContent=questions.length+" MCQs available · "+cards.length+" flashcards available.";
+}
+function showTab(tab){
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(tab).classList.remove("hidden");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+ if(tab==="cards")renderCard();
+ if(tab==="manage")updateStats();
+}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+function startQuiz(){
+ const subject=document.getElementById("subject").value;
+ deck=questions.filter(q=>subject==="All"||q.subject===subject);
+ deck=deck.map(q=>({...q})).sort(()=>Math.random()-.5);
+ index=0;showTab("quiz");renderQuestion();
+}
+function renderQuestion(){
+ const q=deck[index];
+ document.getElementById("feedback").className="hidden";
+ document.getElementById("feedback").textContent="";
+ document.getElementById("nextBtn").disabled=true;answered=false;
+ if(!q){
+ document.getElementById("question").textContent="Practice session complete! 🎉";
+ document.getElementById("options").innerHTML="";
+ document.getElementById("qCount").textContent=deck.length+" questions";
+ document.getElementById("quizbar").style.width="100%";
+ document.getElementById("nextBtn").textContent="Practise again";
+ document.getElementById("nextBtn").disabled=false;
+ document.getElementById("nextBtn").onclick=startQuiz;
+ return;
+ }
+ document.getElementById("nextBtn").textContent="Next question →";
+ document.getElementById("nextBtn").onclick=nextQuestion;
+ document.getElementById("qSubject").textContent=q.subject;
+ document.getElementById("qCount").textContent=(index+1)+" / "+deck.length;
+ document.getElementById("quizbar").style.width=(index/deck.length*100)+"%";
+ document.getElementById("question").textContent=q.q;
+ const options=document.getElementById("options");options.innerHTML="";
+ q.o.forEach((opt,i)=>{
+ const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+". "+opt;
+ b.onclick=()=>chooseAnswer(i);options.appendChild(b);
+ });
+}
+function chooseAnswer(choice){
+ if(answered)return;answered=true;
+ const q=deck[index],correct=choice===q.a;
+ stats.attempted++;if(correct)stats.correct++;save();updateStats();
+ document.querySelectorAll("#options button").forEach((b,i)=>{
+ b.disabled=true;if(i===q.a)b.classList.add("correct");else if(i===choice)b.classList.add("wrong");
+ });
+ const f=document.getElementById("feedback");f.className="feedback "+(correct?"good":"bad");
+ f.textContent=(correct?"Correct! ":"Not quite. Correct answer: "+q.o[q.a]+". ")+(q.e||"");
+ document.getElementById("nextBtn").disabled=false;
+}
+function nextQuestion(){if(!answered)return;index++;renderQuestion();}
+function renderCard(){
+ if(!cards.length)return;
+ const c=cards[cardIndex%cards.length];flipped=false;
+ document.getElementById("front").textContent=c.q;
+ document.getElementById("back").textContent=c.a;
+ document.getElementById("back").classList.add("hidden");
+ document.getElementById("cardCount").textContent="Card "+(cardIndex+1)+" of "+cards.length;
+}
+function flipCard(){flipped=!flipped;document.getElementById("back").classList.toggle("hidden",!flipped);}
+function nextCard(){cardIndex=(cardIndex+1)%cards.length;renderCard();}
+function prevCard(){cardIndex=(cardIndex-1+cards.length)%cards.length;renderCard();}
+document.getElementById("addForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ questions.push({subject:document.getElementById("newSubject").value,q:document.getElementById("newQuestion").value.trim(),o:["a","b","c","d"].map(id=>document.getElementById(id).value.trim()),a:Number(document.getElementById("correct").value),e:document.getElementById("explanation").value.trim()});
+ save();e.target.reset();updateStats();
+ document.getElementById("manageMsg").textContent="Question saved successfully!";
+});
+function exportData(){
+ const data={questions,cards,stats};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="studysprint-backup.json";a.click();URL.revokeObjectURL(url);
+}
+document.getElementById("importFile").addEventListener("change",async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{
+ const data=JSON.parse(await file.text());
+ if(!Array.isArray(data.questions))throw Error("Backup must contain a questions array.");
+ if(!data.questions.every(q=>q&&typeof q.q==="string"&&Array.isArray(q.o)&&q.o.length===4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&typeof q.subject==="string"))throw Error("One or more questions have an invalid format.");
+ questions=data.questions;
+ if(Array.isArray(data.cards))cards=data.cards;
+ if(data.stats&&Number.isFinite(data.stats.attempted)&&Number.isFinite(data.stats.correct))stats=data.stats;
+ save();updateStats();document.getElementById("manageMsg").textContent="Backup imported successfully.";
+ }catch(err){alert("Import failed: "+err.message);}
+ e.target.value="";
+});
+function clearProgress(){
+ if(confirm("Reset your saved question statistics? Your questions will remain.")){
+ stats={attempted:0,correct:0};save();updateStats();
+ }
+}
+updateStats();renderCard();
+</script>
+</body>
+      </html>
+      
